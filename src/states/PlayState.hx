@@ -1,5 +1,6 @@
 package states;
 
+import entities.FallingGuy;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -21,6 +22,19 @@ class PlayState extends FlxState
 		var playText = new FlxText(20, 20, 0, "You're now playing!");
 		playText.color = 0x111111;
 		add(playText);
+		
+		FlxG.camera.fade(0x11111111, .33, true ,function() {
+			
+		});
+		
+		init();
+	}
+	
+	var guy:FallingGuy;
+	
+	public function init() {
+		guy = new FallingGuy();
+		add(guy);
 	}
 	
 	/**
