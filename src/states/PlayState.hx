@@ -1,6 +1,7 @@
 package states;
 
 import entities.FallingGuy;
+import entities.Wall;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -20,7 +21,7 @@ class PlayState extends FlxState
 	{
 		super.create();
 		var playText = new FlxText(20, 20, 0, "You're now playing!");
-		playText.color = 0x111111;
+		//playText.color = 0x111111;
 		add(playText);
 		
 		FlxG.camera.fade(0x11111111, .33, true ,function() {
@@ -31,9 +32,16 @@ class PlayState extends FlxState
 	}
 	
 	var guy:FallingGuy;
+	var leftWall:Wall;
+	var rightWall:Wall;
 	
 	public function init() {
 		guy = new FallingGuy();
+		leftWall = new Wall();
+		rightWall = new Wall(true);
+		add(leftWall);
+		add(rightWall);
+		rightWall.x = 100;
 		add(guy);
 	}
 	

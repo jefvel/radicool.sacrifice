@@ -24,7 +24,7 @@ class MenuState extends FlxState
 		super.create();
 		FlxG.mouse.visible = false;
 		playText = new FlxText(15, 20, 0, "Press anything (WASD, Space) to sacrifice");
-		playText.color = 0x111111;
+		//playText.color = 0x111111;
 		add(playText);
 	}
 	
