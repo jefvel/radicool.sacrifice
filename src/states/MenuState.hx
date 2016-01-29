@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxMath;
 
@@ -21,14 +22,16 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		FlxG.mouse.unload();
-		playText = new FlxText(20, 20, 0, "Press anything to sacrifice");
-		playText.color = 0x111111;
+		FlxG.mouse.visible = false;
+		playText = new FlxText(15, 20, 0, "Press anything (WASD, Space) to sacrifice");
+		//playText.color = 0x111111;
 		add(playText);
 	}
 	
 	function startSacrifice() {
-		FlxG.switchState(new PlayState());
+		FlxG.camera.fade(0x11111111, .33, false,function() {
+			FlxG.switchState(new PlayState());
+		});
 	}
 	
 	/**
