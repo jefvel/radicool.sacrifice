@@ -14,10 +14,10 @@
 	<!--------------------------------WINDOW SETTINGS------------------------------->
 	
 	<!--These window settings apply to all targets-->
-	<window height="640" width="480" fps="60" background="#000000" hardware="true" vsync="true" />
+	<window height="640" width="480" fps="60" background="#efefef" hardware="true" vsync="true" />
 	
 	<!--Web-specific-->
-	<window if="web" orientation="portrait"  />
+	<window if="web" orientation="portrait" resizable="false"  />
 	
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />

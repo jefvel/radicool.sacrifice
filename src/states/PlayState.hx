@@ -19,6 +19,7 @@ class PlayState extends FlxState
 	{
 		super.create();
 		var playText = new FlxText(20, 20, 0, "You're now playing!");
+		playText.color = 0x111111;
 		add(playText);
 	}
 	

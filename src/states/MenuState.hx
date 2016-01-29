@@ -21,7 +21,9 @@ class MenuState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		FlxG.mouse.unload();
 		playText = new FlxText(20, 20, 0, "Press anything to sacrifice");
+		playText.color = 0x111111;
 		add(playText);
 	}
 	

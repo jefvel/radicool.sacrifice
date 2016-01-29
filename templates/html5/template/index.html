@@ -27,10 +27,16 @@
 			margin: 0; 
 			padding: 0; 
 			height: 100%; 
-			overflow: hidden; 
+			overflow: hidden;
+			background-color:#222222;
 		}
 		#openfl-content {
 			background-color:#::WIN_FLASHBACKGROUND::;
+			::if (!WIN_RESIZABLE)::
+			margin-right:auto;
+			margin-left:auto;
+			margin-top:5%;
+			::end::
 			width: ::if (WIN_RESIZABLE)::100%::elseif (WIN_WIDTH > 0)::::WIN_WIDTH::px::else::100%::end::; height: ::if (WIN_RESIZABLE)::100%::elseif (WIN_WIDTH > 0)::::WIN_HEIGHT::px::else::100%::end::; }
 		::foreach assets::::if (type == "font")::
 		@font-face {
