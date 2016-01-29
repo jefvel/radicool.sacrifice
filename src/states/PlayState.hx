@@ -25,9 +25,7 @@ class PlayState extends FlxState
 		add(playText);
 		
 		FlxG.camera.fade(0x11111111, .33, true ,function() {
-			
 		});
-		
 		init();
 	}
 	
@@ -41,8 +39,9 @@ class PlayState extends FlxState
 		rightWall = new Wall(true);
 		add(leftWall);
 		add(rightWall);
-		rightWall.x = 100;
+		rightWall.x = FlxG.width - rightWall.width;
 		add(guy);
+		Reg.depth = 0;
 	}
 	
 	/**
@@ -60,5 +59,6 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+		Reg.depth += 1;
 	}	
 }

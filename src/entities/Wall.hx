@@ -15,6 +15,7 @@ class Wall extends FlxSprite
 		if (flipped) {
 			flipX = true;
 		}
+		
 		loadGraphic(AssetPaths.wall__png, false, 16, 64);
 	}
 	
