@@ -19,4 +19,8 @@ class Wall extends FlxSprite
 		loadGraphic(AssetPaths.wall__png, false, 16, 64);
 	}
 	
+	public override function update() {
+		super.update();
+		this.y = - Reg.depth % this.height;
+	}
 }
