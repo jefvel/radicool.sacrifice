@@ -18,6 +18,8 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		var playText = new FlxText(20, 20, 0, "You're now playing!");
+		add(playText);
 	}
 	
 	/**

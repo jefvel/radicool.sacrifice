@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxMath;
 
 /**
@@ -12,12 +13,20 @@ import flixel.util.FlxMath;
  */
 class MenuState extends FlxState
 {
+	var playText:FlxText;
+	var keys = ["W", "A", "S", "D", "SPACE"];
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
 		super.create();
+		playText = new FlxText(20, 20, 0, "Press anything to sacrifice");
+		add(playText);
+	}
+	
+	function startSacrifice() {
+		FlxG.switchState(new PlayState());
 	}
 	
 	/**
@@ -27,6 +36,7 @@ class MenuState extends FlxState
 	override public function destroy():Void
 	{
 		super.destroy();
+		FlxDestroyUtil.destroy(playText);
 	}
 
 	/**
@@ -35,5 +45,8 @@ class MenuState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+		if (FlxG.keys.anyJustPressed(keys)) {
+			startSacrifice();
+		}
 	}	
 }
