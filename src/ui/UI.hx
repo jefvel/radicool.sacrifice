@@ -25,8 +25,10 @@ class UI extends FlxSpriteGroup
 	public function new() {
 		super();
 		scoreText = createScoreText();
+
 		countdownText = createCountdownText();
 		debugMessage = createDebugMessageText();
+		debugMessage.color = 0xffff00;
 		debugMessage.visible = true;
 		
 		add(debugMessage);
@@ -52,7 +54,7 @@ class UI extends FlxSpriteGroup
 	}
 
 	public static function createDebugMessageText():FlxText{
-		var textField = new FlxText();
+		var textField = new FlxText(15, 100, 0, "RADICOOL");
 		//textField.font = FontInfo.getCustomTextFormat(24, TextFormatAlign.CENTER);
 		textField.width = Lib.current.stage.stageWidth;
 		textField.x = 0;//Lib.current.stage.stageWidth/2;

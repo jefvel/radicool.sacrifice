@@ -56,6 +56,7 @@ class PlayState extends FlxState
 	
 	
 	public function init() {
+		ui = new UI();
 		gameTimer = new DtTimer();
 		gameTimer.setCallback(function() {
 			//TODO
@@ -88,6 +89,7 @@ class PlayState extends FlxState
 		ui.updateCountdown(gameTimer.getCountdownMs());
 		
 		super.update();
+		ui.draw();
 		Reg.depth += 2;
 		FlxG.overlap(dude, rocks, hitRock);
 	}
