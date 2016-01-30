@@ -26,6 +26,7 @@ class MenuState extends FlxState
 		playText = new FlxText(15, 20, 0, "Press anything (WASD, Space) to sacrifice");
 		//playText.color = 0x111111;
 		add(playText);
+		FlxG.worldBounds.set(0, 0, FlxG.width, 20000);
 	}
 	
 	function startSacrifice() {

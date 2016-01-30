@@ -12,7 +12,7 @@ class FallingGuy extends FlxSprite
 {
 
 	
-	private var guyAcceleration = 900;
+	private var guyAcceleration = 1900;
 	
 	public function new(X:Float=0, Y:Float=0, ?SimpleGraphic:Dynamic) 
 	{
@@ -20,7 +20,11 @@ class FallingGuy extends FlxSprite
 		loadGraphic(AssetPaths.falling_sheet__png, true, 32, 32);
 		
 		animation.add("falling", [0, 1], 6, true);
+		animation.add("dead", [2], 6, false);
 		animation.play("falling");
+		
+	
+		this.y = -100;
 	}
 	
 	public override function update() {
@@ -29,23 +33,46 @@ class FallingGuy extends FlxSprite
 		animation.play("falling");
 	
 		FlxG.camera.follow(this);
-		FlxG.camera.deadzone.set( -100, -100, FlxG.width + 200, FlxG.height * 0.5);
+		FlxG.camera.deadzone.setSize(3000, 0);
+		FlxG.camera.deadzone.x = -1000;
 		
 		var acc = 0;
 		
-		if (FlxG.keys.pressed.A) {
-			acc += -guyAcceleration;
+		if(this.alive){
+		
+			if (FlxG.keys.pressed.A) {
+				acc += -guyAcceleration;
+			}
+			if (FlxG.keys.pressed.D) {
+				acc += guyAcceleration;
+			}
+		
 		}
-		if (FlxG.keys.pressed.D) {
-			acc += guyAcceleration;
-		}
+		
+		this.acceleration.y = 100;
 		
 		this.acceleration.x = acc;
-		this.
+	
 		this.maxVelocity.x = 200;
+		this.maxVelocity.y = 1000;
 		
-		this.angularVelocity += this.velocity.x * 3;
-		this.maxAngular = 200;
+		this.angularVelocity += this.velocity.x * 3 + Math.random();
+		this.maxAngular = 300;
 		this.drag.x = 200;
+		
+		if (this.x < 0) {
+			this.x = 0;
+			this.velocity.x = 300;
+		}else if (this.x > FlxG.width - this.width) {
+			this.x = FlxG.width - this.width;
+			this.velocity.x = - 300;
+		}
+	}
+	
+	public function completelySplatter() {
+		this.alive = false;
+		this.angularVelocity = 0;
+		this.angle = 0;
+		this.animation.play("dead");
 	}
 }

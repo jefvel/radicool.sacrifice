@@ -1,5 +1,7 @@
 package states;
 
+import entities.Bottom;
+import entities.WallLooper;
 import util.DtTimer;
 import ui.UI;
 import entities.FallingGuy;
@@ -41,8 +43,9 @@ class PlayState extends FlxState
 	
 	private var dude:FallingGuy; //Refers to the player's dude
 	private var rocks:FlxGroup; //A list of all the rocks
-	var leftWall:Wall;
-	var rightWall:Wall;
+	var bottom:Bottom;
+	
+	var walls:WallLooper;
 	
 	override public function create():Void
 	{
@@ -63,14 +66,16 @@ class PlayState extends FlxState
 		rockTimer = new DtTimer();
 		rockTimer.setCallback(spawnRockCallback);
 		
+		bottom = new Bottom();
 		dude = new FallingGuy();
-		dude.x = 50;
-		leftWall = new Wall();
-		rightWall = new Wall(true);
-		add(leftWall);
-		add(rightWall);
-		rightWall.x = FlxG.width - rightWall.width;
+		dude.x = FlxG.width * 0.5;
+		walls = new WallLooper();
+		
+		add(walls.hitboxes);
+		add(walls);
 		add(dude);
+		add(bottom);
+		
 		Reg.depth = 0;
 	}
 	
@@ -85,13 +90,22 @@ class PlayState extends FlxState
 		
 		gameTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
 		rockTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
-		ui.updateCountdown(gameTimer.getCountdownMs());
+		//ui.updateCountdown(gameTimer.getCountdownMs());
 		
 		super.update();
-		Reg.depth += 2;
 		FlxG.overlap(dude, rocks, hitRock);
 		
-
+		FlxG.collide(walls.hitboxes, dude, function(a, b) {
+			
+		});
+		
+		FlxG.collide(bottom, dude, function(a, b) {
+			dude.completelySplatter();
+		});
+		
+		if (FlxG.keys.justPressed.B) {
+			FlxG.debugger.visible = !FlxG.debugger.visible;
+		}
 	}
 	
 	private function hitRock(dude:FlxObject, rock:FlxObject):Void
