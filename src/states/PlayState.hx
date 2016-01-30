@@ -1,5 +1,7 @@
 package states;
 
+import util.DtTimer;
+import ui.UI;
 import entities.FallingGuy;
 import entities.Wall;
 import flixel.FlxG;
@@ -11,23 +13,37 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
-/**
- * A FlxState which can be used for the actual gameplay.
- */
+typedef GameSettings = {
+	var GAME_DURATION:Int;
+	var GAME_SPEED:Int;
+	var GAME_SPAWN_RATE:Int;
+}
+
+typedef GameValues = {
+	var scoreCount:Int;
+}
+	
 class PlayState extends FlxState
 {
-	public var dude:FallingGuy; //Refers to the player's dude
-	public var rocks:FlxGroup; //A list of all the rocks
-	public var timer:Float; //A timer to decide when to spawn next rock
-	public var speedMultiplier:Float = 1; //Game speed
-	public var spawnMultiplier:Float = 2; //Frequency of rock spawning
+	private var settings:GameSettings = {
+		GAME_DURATION: 100 * 1000,
+		GAME_SPEED: 1,
+		GAME_SPAWN_RATE: 1
+	};
+
+	public static var gameValues:GameValues = {
+		scoreCount: 0
+	};
+	
+	private var gameTimer:DtTimer;
+	private var rockTimer:DtTimer; //A timer to decide when to spawn next rock
+	private var ui:UI; //Game UI (Score/Timers/Related images)
+	
+	private var dude:FallingGuy; //Refers to the player's dude
+	private var rocks:FlxGroup; //A list of all the rocks
 	var leftWall:Wall;
 	var rightWall:Wall;
 	
-	
-	/**
-	 * Function that is called up when to state is created to set it up. 
-	 */
 	override public function create():Void
 	{
 		super.create();
@@ -40,6 +56,13 @@ class PlayState extends FlxState
 	
 	
 	public function init() {
+		gameTimer = new DtTimer();
+		gameTimer.setCallback(function() {
+			//TODO
+		});
+		rockTimer = new DtTimer();
+		rockTimer.setCallback(spawnRockCallback);
+		
 		dude = new FallingGuy();
 		dude.x = 50;
 		leftWall = new Wall();
@@ -51,25 +74,19 @@ class PlayState extends FlxState
 		Reg.depth = 0;
 	}
 	
-	/**
-	 * Function that is called when this state is destroyed - you might want to 
-	 * consider setting all objects this state uses to null to help garbage collection.
-	 */
+	
 	override public function destroy():Void
 	{
 		super.destroy();
 	}
 
-	/**
-	 * Function that is called once every frame.
-	 */
 	override public function update():Void
 	{
-
-		timer -= FlxG.elapsed * speedMultiplier;
-		if(timer <= 0)
-				spawnRock();
-				
+		
+		gameTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
+		rockTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
+		ui.updateCountdown(gameTimer.getCountdownMs());
+		
 		super.update();
 		Reg.depth += 2;
 		FlxG.overlap(dude, rocks, hitRock);
@@ -80,9 +97,10 @@ class PlayState extends FlxState
 		rock.kill();
 	}
 	
-	//This function resets the timer and adds a new rock to the game
-	private function spawnRock():Void
+	private function spawnRockCallback():Void
 	{
-		timer = 1+Math.random()*spawnMultiplier;	//Reset the timer
+		rockTimer = new DtTimer();
+		rockTimer.setCallback(spawnRockCallback);
+		rockTimer.startWithCountdownMs(settings.GAME_SPAWN_RATE);
 	}
 }
