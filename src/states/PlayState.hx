@@ -73,6 +73,8 @@ class PlayState extends FlxState
 		super.update();
 		Reg.depth += 2;
 		FlxG.overlap(dude, rocks, hitRock);
+		
+
 	}
 	
 	private function hitRock(dude:FlxObject, rock:FlxObject):Void
