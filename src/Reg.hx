@@ -1,6 +1,7 @@
 package;
 
 import flixel.util.FlxSave;
+import flixel.util.FlxSignal;
 
 /**
  * Handy, pre-built Registry class that can be used to store 
@@ -31,6 +32,14 @@ class Reg
 	public static var score:Int = 0;
 	
 	public static var depth:Int = 0;
+	
+	public static var lives:Int = 3;
+	public static var health:Int = 100;
+	
+	public static var combo:Int = 0;
+	
+	public static var comboBrokenSgn:FlxSignal = new FlxSignal();
+	public static var failedRoundSgn:FlxSignal = new FlxSignal();
 	/**
 	 * Generic bucket for storing different FlxSaves.
 	 * Especially useful for setting up multiple save slots.
