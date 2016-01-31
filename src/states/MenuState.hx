@@ -12,6 +12,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxMath;
+import haxe.Http;
 import haxe.Timer;
 import ui.TitleGraphic;
 
@@ -28,6 +29,10 @@ class MenuState extends FlxState
 	var splashSound2:FlxSound;
 	
 	var menuMusic:FlxSound;
+	var allowStart = false;
+	
+	var highScore:Int;
+	
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -38,6 +43,7 @@ class MenuState extends FlxState
 		
 		Timer.delay(function(){
 			FlxG.sound.playMusic(AssetPaths.menumusic__wav, 1, true);
+			allowStart = true;
 		}, 600);
 		
 		
@@ -52,15 +58,36 @@ class MenuState extends FlxState
 		bg.y = FlxG.height;
 		add(bg);
 		add(title);
+		
+		loadHighscore();
+	}
+	
+	function loadHighscore() {
+		var r = new Http("http://api.sacrifice.jefvel.net/highscore.php");
+		r.onData = function(d:String) {
+			highScore = Std.parseInt(d);
+			if (this.active) {
+				var hiscoreField = new FlxText(0, 0, 0, "Greatest Sacrifice\n" + highScore, 11);
+				hiscoreField.alignment = "center";
+				hiscoreField.y = FlxG.height - hiscoreField.height - 6;
+				hiscoreField.x = FlxG.width * 0.5 - hiscoreField.width * 0.5;
+				add(hiscoreField);
+			}
+		}
+		r.request();
 	}
 	
 	var started = false;
 	function startSacrifice() {
+		if (!allowStart) {
+			return;
+		}
 		if (started) {
 			return;
 		}
 		started = true;
 		splashSound.play();	
+
 		FlxG.sound.music.fadeOut(0.2);
 		title.coolFlash(function() {
 			splashSound2.play();

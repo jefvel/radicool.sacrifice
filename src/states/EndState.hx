@@ -8,6 +8,7 @@ import flixel.FlxState;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import haxe.Http;
 import haxe.Timer;
 
 /**
@@ -31,6 +32,7 @@ class EndState extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		postScore();
 		splash = FlxG.sound.load(AssetPaths.pling__wav);
 		
 		var o = new FlxSprite();
@@ -69,6 +71,14 @@ class EndState extends FlxState
 		}
 		
 		add(emitter);		
+	}
+	
+	function postScore() {
+		var req = new Http("http://api.sacrifice.jefvel.net/score.php");
+		req.addParameter("score", "" + Reg.score);
+		req.request(true);
+		req.onData = function(data:String) {
+		}
 	}
 	
 	var t = 0.0;

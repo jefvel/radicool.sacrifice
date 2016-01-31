@@ -31,7 +31,7 @@ class Bottom extends FlxSpriteGroup
 		spikes.loadGraphic(AssetPaths.spike__png);
 		spikes.y = -spikes.height;
 		add(spikes);
-		spikes.x = 40;
+		spikes.x = 24;
 		
 		FlxG.camera.setBounds(0, -Settings.SKY_HEIGHT, FlxG.width, this.y + bottom.height + Settings.SKY_HEIGHT);
 	}

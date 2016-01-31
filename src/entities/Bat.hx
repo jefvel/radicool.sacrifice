@@ -16,8 +16,8 @@ class Bat extends Monster
 	{
 		batSpeed -= Math.random() * 20;
 		this.name = "bat";
-		this.damage = 2;
-		this.score = 40;
+		this.damage = 1;
+		this.score = 44;
 		super(X, Y, SimpleGraphic);
 		loadGraphic(AssetPaths.bat_sheet__png, true, 10, 8);
 		animation.add("flap", [0, 1], 5, true);

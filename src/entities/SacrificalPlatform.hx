@@ -1,6 +1,8 @@
 package entities;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import flixel.system.FlxSound;
 import haxe.Timer;
 
 /**
@@ -15,9 +17,14 @@ class SacrificalPlatform extends FlxSpriteGroup
 	var platformPos = 0.0;
 	var sacrificer:FlxSprite;
 	
+	var slideIn:FlxSound;
+	var slideOut:FlxSound;
+	
 	public function new() 
 	{
 		super();
+		slideIn = FlxG.sound.load(AssetPaths.slide_in__wav);
+		slideOut = FlxG.sound.load(AssetPaths.slide_out__wav);
 		
 		platform = new FlxSprite();
 		platform.loadGraphic(AssetPaths.platform__png);
@@ -30,18 +37,19 @@ class SacrificalPlatform extends FlxSpriteGroup
 		sacrificer.y = -16;
 		
 		add(platform);
-		
-		closePlatform();
+		platformPos = -width;
 		
 		x = -width;
 	}
 		
 	public function extendPlatform() {
 		platformPos = 0;
+		slideOut.play();
 	}
 	
 	public function closePlatform() {
 		platformPos = -width;
+		slideIn.play();
 	}
 	
 	public function attachToPlatform(a:FallingGuy) {

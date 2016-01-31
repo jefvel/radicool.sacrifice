@@ -39,7 +39,8 @@ class GodOVision extends FlxSpriteGroup
 		
 		this.scrollFactor.y = 0;
 		scoreText = new FlxText(20, 10, 0, "Score");
-		comboText = new FlxText(10, 10, 100, "");
+		comboText = new FlxText(10, 10, 200, "");
+		comboText.alignment = "center";
 		add(comboText);
 		add(scoreText);
 		
@@ -151,7 +152,10 @@ class GodOVision extends FlxSpriteGroup
 		
 		scoreText.scale.x = scoreText.scale.y = 1;
 		if (curScore < Reg.score) {
-			if (curScore + 500 < Reg.score) {
+			if (curScore + 10000 < Reg.score) {
+				curScore += 10000;
+				scoreText.scale.x = scoreText.scale.y = 5;
+			}else if (curScore + 500 < Reg.score) {
 				curScore += 500;
 				scoreText.scale.x = scoreText.scale.y = 4;
 			}else if (curScore + 100 < Reg.score) {
@@ -171,12 +175,14 @@ class GodOVision extends FlxSpriteGroup
 		scoreText.x = (FlxG.width - scoreText.width) * 0.5;
 		
 		if (Reg.combo >= 2) {
-			comboText.text = "COMBO: " + Reg.combo;
-			comboText.x = FlxG.camera.target.x + (Math.random() * 4) - 2;
-			comboText.y = FlxG.camera.target.y - 30 - FlxG.camera.scroll.y;
-			var scale = Math.max(1, Reg.combo / 3);
-			scale = Math.min(4, scale);
+			comboText.text = "SAME MONSTER COMBO\n" + Reg.combo;
+		
+			
+			var scale = Math.max(1, Reg.combo / 4);
+			scale = Math.min(2, scale);
 			comboText.scale.x = comboText.scale.y = scale;
+			comboText.x = FlxG.camera.target.x + FlxG.camera.target.width * 0.5 - comboText.width * 0.5;
+			comboText.y = FlxG.camera.target.y - comboText.height - FlxG.camera.scroll.y - 15;
 		}else {
 			comboText.text  = "";	
 		}

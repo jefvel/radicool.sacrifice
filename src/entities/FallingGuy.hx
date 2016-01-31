@@ -37,6 +37,7 @@ class FallingGuy extends FlxSprite
 		this.y = -200;
 		this.x = 48;
 		
+		
 		killedSignal = new FlxSignal();
 		jumpedOff = new FlxSignal();
 		

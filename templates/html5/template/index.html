@@ -30,12 +30,21 @@
 			overflow: hidden;
 			background-color:#630031;
 		}
+		#container {
+			position:absolute;
+			width:0;
+			top:50%;
+			right:50%;
+		}
 		#openfl-content {
 			background-color:#::WIN_FLASHBACKGROUND::;
+			position:absolute;
 			::if (!WIN_RESIZABLE)::
-			margin-right:auto;
-			margin-left:auto;
-			margin-top:5%;
+				left:-::(WIN_WIDTH / 2)::px;
+				top:-::(WIN_HEIGHT / 2)::px;
+			::else::
+				top:0px;
+				left:0px;
 			::end::
 			width: ::if (WIN_RESIZABLE)::100%::elseif (WIN_WIDTH > 0)::::WIN_WIDTH::px::else::100%::end::; height: ::if (WIN_RESIZABLE)::100%::elseif (WIN_WIDTH > 0)::::WIN_HEIGHT::px::else::100%::end::; }
 		::foreach assets::::if (type == "font")::
@@ -53,8 +62,11 @@
 	
 </head>
 <body>
+	<div id="container">
 	
-	<div id="openfl-content"></div>
+		<div id="openfl-content"></div>
+		
+	</div>
 	
 	<script type="text/javascript">
 		lime.embed ("openfl-content", ::WIN_WIDTH::, ::WIN_HEIGHT::, "::WIN_FLASHBACKGROUND::");

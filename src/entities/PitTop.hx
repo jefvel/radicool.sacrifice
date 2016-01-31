@@ -22,8 +22,6 @@ class PitTop extends FlxSpriteGroup
 		platform = new SacrificalPlatform();
 		platform.y = - 169;
 		
-
-		
 		add(bg);
 		add(platform);
 	}

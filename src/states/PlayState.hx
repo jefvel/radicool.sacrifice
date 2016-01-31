@@ -5,6 +5,7 @@ import entities.Bat;
 import entities.Bottom;
 import entities.CatMonster;
 import entities.FaceMonster;
+import entities.Gib;
 import entities.Monster;
 import entities.PitBg;
 import entities.PitTop;
@@ -220,6 +221,9 @@ class PlayState extends FlxState
 	var startTime:Float;
 	public function launchOff() {
 		dude.jumpOff();
+		emitter.x = dude.x;
+		emitter.y = dude.y;
+		emitter.start(true, 0, 0, 3);
 		startTime = Timer.stamp();
 		pushedSound.play();
 		sacrificePrepared = false;
@@ -262,9 +266,7 @@ class PlayState extends FlxState
 		});
 		
 		FlxG.collide(deadMonsters, walls.hitboxes);
-		if (FlxG.camera.scroll.y > Settings.PIT_DEPTH - 400) {
-			FlxG.collide(deadMonsters, bottom.bottom);
-		}
+		FlxG.collide(deadMonsters, bottom.bottom);
 		
 		FlxG.collide(bottom.bottom, dude, function(a, b) {
 			punchEnemy(bottom.bottom);
@@ -292,10 +294,9 @@ class PlayState extends FlxState
 			emitter.y = bat.y;
 			bat.kill();
 			emitter.start(true, 2.0, 0.1, 30);
+			
 		} else {
-			emitter.x = dude.x + dude.width * 0.5;
-			emitter.y = dude.y + dude.height *0.8;
-			emitter.start(true, 0);
+			GIB();
 		}
 		
 		var comboBroken = false;
@@ -309,7 +310,7 @@ class PlayState extends FlxState
 		
 		lastHitMonster = bat.name;
 		
-		Reg.score += Std.int((Reg.combo * Reg.combo + 1) * bat.score);// Std.int(Math.pow(bat.score, 1 + (Reg.combo * 0.15)));
+		Reg.score += Std.int((Reg.combo * Reg.combo * Reg.combo + 1) * bat.score);// Std.int(Math.pow(bat.score, 1 + (Reg.combo * 0.15)));
 		FlxG.camera.shake(0.01, 0.1);
 		
 		dude.angularAcceleration = dude.angularVelocity * 2.0;
@@ -323,9 +324,9 @@ class PlayState extends FlxState
 		
 		
 		if (Reg.health <= 0) {
-			emitter.x = dude.x + dude.width * 0.5;
-			emitter.y = dude.y + dude.height * 0.8;
-			emitter.start(true, 0);
+		
+			
+			GIB();
 			
 			dude.completelySplatter();
 			dude.visible = false;
@@ -334,6 +335,19 @@ class PlayState extends FlxState
 		}
 		
 		dude.animation.play("hurt", true);
+	}
+	
+	function GIB() {
+		emitter.x = dude.x + dude.width * 0.5;
+		emitter.y = dude.y + dude.height * 0.8;
+		emitter.start(true, 0);
+		for (i in 0...Std.int(3 + Math.random() * 2)) {
+			var g:Gib = new Gib();
+			g.x = dude.x;
+			g.y = dude.y;
+			deadMonsters.add(g);
+			add(g);
+		}
 	}
 	
 	private function hitRock(dude:FlxObject, rock:FlxObject):Void
