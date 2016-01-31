@@ -40,7 +40,8 @@ class EndState extends FlxState
 		o.y = FlxG.height - o.height;
 		add(o);
 		
-		
+		place = new FlxText(0, 0, FlxG.width);
+		place.alignment = "center";
 		Timer.delay(showScore, 1000);
 		
 		scoreText = new FlxText();
@@ -73,11 +74,16 @@ class EndState extends FlxState
 		add(emitter);		
 	}
 	
+	var place:FlxText;
+	
 	function postScore() {
 		var req = new Http("http://api.sacrifice.jefvel.net/score.php");
 		req.addParameter("score", "" + Reg.score);
 		req.request(true);
+		
 		req.onData = function(data:String) {
+			place.text = "Your Sacrifice is ranked\n#" + data;
+			place.x = 0;
 		}
 	}
 	
@@ -100,7 +106,7 @@ class EndState extends FlxState
 		FlxG.timeScale = 1.0;
 		scoreText.x = (FlxG.width - scoreText.width) * 0.5;
 		if (finished) {
-			if (FlxG.keys.anyJustPressed(["A", "D"])) {
+			if (FlxG.keys.anyJustPressed(["A", "D"]) || FlxG.touches.justStarted().length > 0) {
 				splash.play();
 				finished = false;
 				FlxG.sound.music.stop();
@@ -127,7 +133,12 @@ class EndState extends FlxState
 		Timer.delay(function() {
 			FlxTween.tween(scoreText.scale, { x:3, y:3 }, 0.1);
 			FlxTween.tween(scoreText, { angle:0 }, 0.05);
-			finished = true;
 		}, 200);
+		
+		Timer.delay(function() {
+			add(place);
+			finished = true;
+			place.y = scoreText.y + scoreText.height + 2;
+		}, 500);
 	}
 }

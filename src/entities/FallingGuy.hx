@@ -77,13 +77,33 @@ class FallingGuy extends FlxSprite
 			animation.play("falling");
 		}
 		
+		
+		var left = false;
+		var right = false;
+		
+		for (touch in FlxG.touches.list) {
+			if (touch.x < FlxG.width * 0.5) {
+				left = true;
+			}else {
+				right = true;
+			}
+		}
+		
+		if (FlxG.keys.pressed.A) {
+			left = true;
+		}
+		
+		if (FlxG.keys.pressed.D) {
+			right = true;
+		}
+		
 		var acc = 0;
 		if(falling){
 			if(this.alive){
-				if (FlxG.keys.pressed.A) {
+				if (left) {
 					acc += -guyAcceleration;
 				}
-				if (FlxG.keys.pressed.D) {
+				if (right) {
 					acc += guyAcceleration;
 				}
 			}

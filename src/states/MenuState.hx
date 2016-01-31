@@ -86,7 +86,7 @@ class MenuState extends FlxState
 			return;
 		}
 		started = true;
-		splashSound.play();	
+		splashSound.play();
 
 		FlxG.sound.music.fadeOut(0.2);
 		title.coolFlash(function() {
@@ -113,8 +113,12 @@ class MenuState extends FlxState
 	 */
 	override public function update():Void
 	{
+		FlxG.mouse.visible = false;
 		super.update();
-		if (FlxG.keys.anyJustPressed(keys)) {
+		if (FlxG.touches.justStarted().length > 0) {
+			startSacrifice();
+		}
+		else if (FlxG.keys.anyJustPressed(keys)) {
 			startSacrifice();
 		}
 	}	

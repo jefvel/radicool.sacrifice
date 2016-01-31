@@ -192,7 +192,7 @@ class PlayState extends FlxState
 		
 		FlxTween.tween(FlxG, { 
 			timeScale: 1.0 
-		}, 1.0);
+		}, 0.3);
 		
 		startingScore = Reg.score;
 		
@@ -248,11 +248,12 @@ class PlayState extends FlxState
 
 	override public function update():Void
 	{
+		FlxG.mouse.visible = false;
 		gameTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
 		rockTimer.step(Math.floor(FlxG.elapsed * settings.GAME_SPEED));
 		
 		if (sacrificePrepared) {
-			if (FlxG.keys.anyJustPressed(["A", "D"])) {
+			if (FlxG.keys.anyJustPressed(["A", "D"]) || FlxG.touches.justStarted().length > 0) {
 				launchOff();
 			}
 		}
